@@ -133,24 +133,25 @@ public static void merge(int nums1[], int nums2[], int n, int m) {
     while (ptr1 >= 0 && ptr2 >= 0) {
         //Now we add the greater element since we're going backwards
         if (nums1[ptr1] >= nums2[ptr2]) {
-            nums1[ptr1+ptr2] = nums1[ptr1];
+            //I need to add 1 to the pointer sum now, since n-1 + m-1 = n+m-2, and I need n-m-1 for the end
+            nums1[ptr1+ptr2+1] = nums1[ptr1];
             ptr1--; //Decrease this time since we're going in reverse
         }
         else {
-            nums1[ptr1+ptr2] = nums2[ptr2];
+            nums1[ptr1+ptr2+1] = nums2[ptr2];
             ptr2--;
         }
     }
 
     //If there are leftover elements in nums1, add them all
     while (ptr1 >= 0) {
-        nums1[ptr1+ptr2] = nums1[ptr1];
+        nums1[ptr1+ptr2+1] = nums1[ptr1];
         ptr1--;
     }
     
     //Same for nums2
     while (ptr2 >= 0) {
-        nums1[ptr1+ptr2] = nums2[ptr2];
+        nums1[ptr1+ptr2+1] = nums2[ptr2];
         ptr2--;
     }
 }
@@ -163,6 +164,7 @@ The time complexity is still O(n+m) since we did the same process in a different
 Write a method that takes in an array of integers and an integer target value, and returns two elements of the array which add up to this integer target. Assume that there will always be two elements which add to the target.
 
 **Example Input:** [2, 7, 11, 15], and target = 9
+
 **Example Output:** [2, 7]
 
 <details>
