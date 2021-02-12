@@ -1,9 +1,9 @@
 # Reverse Arrays
 Write a method that reverses a given character array, and analyze the space and runtime complexity of your algorithm. Try to find a solution which does not create a new array, but instead modifies the given array in place. 
 
-**Example input:** ["H","a","n","n","a","h"]
+**Example input:** `['H','a','n','n','a','h']`
 
-**Example output:** ["h","a","n","n","a","H"]
+**Example output:** `['h','a','n','n','a','H']`
 
 <details>
     <summary>Click to reveal solution</summary>
@@ -15,7 +15,7 @@ A valid solution would be to create a new array, then iterate through the given 
 
 ```java
 public static void reverse(char arr[]) {
-    int n = arr.length //We will use arr.length a lot
+    int n = arr.length; //We will use arr.length a lot
 
     char[] reversed = new char[n];
 
@@ -55,9 +55,9 @@ If n is the size of the input array, the time complexity is O(n) since we have n
 # Merge Sorted Arrays
 Write a method that merges two already sorted int arrays nums1 and nums2 into one large sorted array nums1. Assume that nums1 has enough extra space to fit the solution, and you are provided the size of nums1 without extra space as n and the size of nums2 as m. Try to come up with a method that does not use any extra space (very tricky!)
 
-**Example input:** [1,2,3,0,0,0] and [2,5,6], n = 3 and m = 3
+**Example input:** `[1,2,3,0,0,0]` and `[2,5,6]`, `n = 3` and `m = 3`
 
-**Example output:** [1,2,2,3,5,6]
+**Example output:** `[1,2,2,3,5,6]`
 
 <details>
 <summary>Click to reveal solution</summary>
@@ -163,9 +163,9 @@ The time complexity is still O(n+m) since we did the same process in a different
 # Two Sum
 Write a method that takes in an array of integers and an integer target value, and returns two elements of the array which add up to this integer target. Assume that there will always be two elements which add to the target.
 
-**Example Input:** [2, 7, 11, 15], and target = 9
+**Example Input:** `[2, 7, 11, 15]`, and `target = 9`
 
-**Example Output:** [2, 7]
+**Example Output:** `[2, 7]`
 
 <details>
     <summary>Click to reveal solution</summary>
