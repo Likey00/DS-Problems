@@ -95,7 +95,7 @@ Since pushing and popping from the stack is O(1) and we iterated through the inp
 <br>
 
 # Max in a Linked List
-Write a method max that takes a Node `head` as an argument and returns the value of the maximum key in the list. Assume that all keys are positive integers, and return 0 if the list is empty. As a challenge, try to write a recursive solution afterwards. Note that the recursive solution requires an additional integer parameter.
+Write a method max that takes a Node `head` as an argument and returns the value of the maximum key in the list. Assume that all keys are positive integers, and return 0 if the list is empty. As a challenge, try to write a recursive solution afterwards.
 
 **Example Input:** `2->7->6->13->8->1`
 
@@ -124,13 +124,12 @@ If n is the length of the given linked list, the time complexity of this solutio
 <br>
 
 ## Recursive Solution
-The methodology of maintaining a current max is similar, except this time it must be passed into the method since it can't be stored across recursive calls. The simplest possible case is an empty list, in which case the current max can just be returned just as before, so this is our base case. Given a non empty list, we can assume we know solutions closer to the base case, since a recursive call to head.next will return the max of the rest of the list. If we know the max of the rest of the list, all we have to do is return the max of the current node and the rest of the list recursively.
+The simplest possible case is an empty list, in which case we can just return 0, so this is our base case. Given a non empty list, we can assume we know solutions closer to the base case, since a recursive call to head.next will return the max of the rest of the list. If we know the max of the rest of the list, all we have to do is return the max of the current node and the rest of the list recursively.
 
 ```java
-public static int max(Node head, int mx) {
-    if (head == null) return mx;
-
-    return Math.max(head.data, max(head.next, mx));
+public static int max(Node head) {
+    if (head == null) return 0;
+    return Math.max(head.data, max(head.next));
 }
 ```
 If n is the length of the given linked list, the time complexity of this solution is O(n) since you visit each node once and apply one operation per node. The space complexity this time however is O(n) since each recursive call requires call stack space, and we make n recursive calls. If you want to understand recursion better through practice, I highly recommend `codingbat.com/java` and their recursion section. 
