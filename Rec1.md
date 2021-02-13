@@ -190,7 +190,7 @@ public static int[] twoSum(int[] arr, int target) {
     return new int[] {0, 0};
 }
 ```
-The time complexity here is O(n^2), since we are doing 2 array accesses per inner loop, and the inner loop is run 1+2+3...n-1 times, which evaluates to n(n-1)/2 operations. The space complexity is O(1) since no new arrays were created.
+The time complexity here is O(n^2), since we are doing 2 array accesses per inner loop, and the inner loop is run 1+2+3...n-1 times, which evaluates to n(n-1)/2 * 2 operations. The space complexity is O(1) since no new arrays were created.
 <br>
 
 ## Efficient Solution
