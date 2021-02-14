@@ -63,7 +63,7 @@ Iterate over the characters in the given string. When an open paren is encounter
 ```java
 public static boolean isBalanced(String input) {
     char[] parens = input.toCharArray();
-    Stack<Integer> s = new Stack<Integer>();
+    Stack<Character> s = new Stack<Character>();
     
     //Iterate through every character in the input string
     for (char c : parens) {

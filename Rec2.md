@@ -88,8 +88,10 @@ public static void insertAfter(Node head, int target, int newValue) {
     for (Node ptr = head; ptr != null; ptr = ptr.next) {
         //If we reach the target node, create a new node that contains newValue and 
         //points to the rest of the list. Then set ptr.next to this new node.
-        if (ptr.data == target) ptr.next = new Node(newValue, ptr.next);
-        break;
+        if (ptr.data == target) {
+            ptr.next = new Node(newValue, ptr.next);
+            break;
+        }
     }
 }
 ```
