@@ -161,7 +161,7 @@ The time complexity is still O(n+m) since we did the same process in a different
 <br>
 
 # Two Sum
-Write a method that takes in an array of integers and an integer target value, and returns two elements of the array which add up to this integer target. Assume that there will always be two elements which add to the target.
+Write a method that takes in a **sorted** array of integers and an integer target value, and returns two elements of the array which add up to this integer target. Assume that there will always be two elements which add to the target.
 
 **Example Input:** `[2, 7, 11, 15]`, and `target = 9`
 
