@@ -164,7 +164,7 @@ class myStack {
         int lastElement;
 
         //Move all but 1 element to q2
-        while (!q1.size() > 1) {
+        while (q1.size() > 1) {
             q2.add(q1.remove());
         }
 
