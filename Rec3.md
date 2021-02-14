@@ -277,6 +277,7 @@ Given a Node `head`, reorder the linked list from the order `1, 2, 3, 4...n` to 
 <details>
 <summary>Click to reveal solution</summary>
 
+## Solution
 There are a couple distinct steps that you can break this problem into. First, you want to split the given list into two, where an extra node would go into the first list. Next, you want to reverse the second list. Finally, you want to insert the elements of the second list in between every other element of the first list.
 
 ```java
