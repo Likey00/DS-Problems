@@ -73,7 +73,7 @@ public class DLL<T> {
 <br>
 
 # Insert at Front - CLL
-Write a method in your CLL class to insert an element `newValue` at the front. Remember that CLLs store a reference to last, and last.next is the front of the list. Think about the possible cases that need to be covered. If you're using my provided CLL class, remember that `newValue` is of type T so comparisons will have to use `.equals()` rather than `==`. 
+Write a method in your CLL class to insert an element `newValue` at the front. Remember that CLLs store a reference to last, and last.next is the front of the list. Think about the possible cases that need to be covered.
 
 **Example Input:** `1->2->3->4->5(last)`, `newValue = 17`, remember that 5 is the stored node last, and it also has a pointer back to 1. 
 
@@ -117,7 +117,7 @@ Solutions will be available on `2/19`
 <br>
 
 # Delete Target Node - CLL
-Write a method in your CLL class to delete the node containing `target` from the list. If there is no node containing `target`, do nothing. Think about the different cases.
+Write a method in your CLL class to delete the node containing `target` from the list. If there is no node containing `target`, do nothing. Think about the different cases. Remember that if you're using my provided CLL class, `target` is of type T, so comparisons will need to use `.equals()` rather than `==`.
 
 **Example Input:** `1->2->3->4->5(last)`, `target = 3`, remember that 5 is the stored node last, and it also has a pointer back to 1.
 
