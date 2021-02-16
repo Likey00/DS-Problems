@@ -226,7 +226,7 @@ public class Queue<T> {
     }
 }
 ```
-Wasn't that final implementation nice? As expected, our time complexity for all these methods is O(1) since we aren't traversing through the list, we are only working with the last and front which we have immediate access to. The space complexity for each method individually is O(1) as well, since we are only ever creating one node at most. An important thing to consider is that if you were to add one element the time and space copmlexity would be O(1), but if you were to add on the order of n elements, it would be O(n) for both.
+Wasn't that final implementation nice? As expected, our time complexity for all these methods is O(1) since we aren't traversing through the list, we are only working with the last and front which we have immediate access to. The space complexity for each method individually is O(1) as well, since we are only ever creating one node at most. An important thing to consider is that if you were to add one element the time and space complexity would be O(1), but if you were to add on the order of n elements, it would be O(n) for both.
 </details>
 <br>
 
