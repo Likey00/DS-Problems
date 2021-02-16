@@ -123,7 +123,7 @@ A good first step is to get access to the node containing `target`, and this can
 public void insertAfter(T target, T newValue) {
     //Iterate through the list
     for (Node<T> ptr = head; ptr != null; ptr = ptr.next) {
-        //Noticed I used .equals since we're working with objects
+        //Notice I used .equals since we're working with objects
         if (ptr.data.equals(target)) {
             //Set up the new node with its value, its prev, and its next pointers
             Node<T> newNode = new Node<T>(newValue, target, target.next);
