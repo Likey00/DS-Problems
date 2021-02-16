@@ -79,7 +79,31 @@ Write a method in your CLL class to insert an element `newValue` at the front. R
 
 **Example Output:** `17->1->2->3->4->5(last)`, Now 5 points to 17 which points to 1
 
-Solutions will be available on `2/19`
+<details>
+<summary>Click to reveal solution</summary>
+
+## Solution
+Since last.next is the front of the CLL, we essentially want to insert a node at last.next. By drawing a diagram, it can be visualized that we want to first create a new node with `newValue`, then make last.next point to this new node, and make this new node point to the old last.next. The only special case is when the list is empty, in which case we can create a new node which points to itself and set it to last.
+
+```java
+public void insertFront(T newValue) {
+    //If the CLL is empty
+    if (last == null) {
+        //Create a new node with newValue, and set its reference to itself
+        last = new Node<T>(newValue, null);
+        last.next = last;
+        return;
+        
+        //Note that I couldn't do this in one line, since using last in the 
+        //constructor would set the new node's next to null
+    }
+    
+    //If the CLL isn't empty, just make new node point to last.next, and last point to new node
+    last.next = new Node<T>(newValue, last.next);
+}
+```
+If n is the length of the CLL at the time this method is called, the time and space complexity are both O(1) since you are always only creating 1 new node and 2 pointers, and there is no list traversal which is dependent on n.
+</details>
 <br>
 
 # Insert After Target - DLL
@@ -89,7 +113,36 @@ Write a method in your DLL class to insert an element `newValue` after the node 
 
 **Example Output:** `1<->2<->3<->17<->4`
 
-Solutions will be available on `2/19`
+<details>
+<summary>Click to reveal solution</summary>
+
+## Solution
+A good first step is to get access to the node containing `target`, and this can be accomplished by iterating through the list until we reach it. Let's call the node containing `target` the target node, the new node we create that contains `newValue` the new node, and the original target node's ".next" the right node. It can be visualized by drawing a diagram that in order to insert the new node, we need to set the target node's ".next" to the new node and the new node's ".next" to the right node. If this were a singly linked list we would be done, but we also need to update the new node's ".prev" to the target node, and the right node's ".prev" to the new node. 
+
+```java
+public void insertAfter(T target, T newValue) {
+    //Iterate through the list
+    for (Node<T> ptr = head; ptr != null; ptr = ptr.next) {
+        //Noticed I used .equals since we're working with objects
+        if (ptr.data.equals(target)) {
+            //Set up the new node with its value, its prev, and its next pointers
+            Node<T> newNode = new Node<T>(newValue, target, target.next);
+            
+            //If the right node isn't null, set its prev
+            //I need to check since calling .prev on null leads to NPE
+            if (target.next != null) target.next.prev = newNode;
+
+            //Set the target's next finally
+            //We have to do it at the end since otherwise right node would be lost
+            target.next = newNode;
+        }
+    }
+
+    //Notice how if the target isn't found nothing happens
+}
+```
+If n is the size of the DLL at the time this method is called, the runtime is O(n) since it is possible that the whole list is traversed. The space complexity is O(1) since we always create two new nodes, one for the pointer and one for the new list element.
+</details>
 <br>
 
 # Queue - CLL Implementation
@@ -99,9 +152,82 @@ Write a queue implementation (this means a new queue class) that uses a CLL. If 
 - `int dequeue()`: Removes the element at the back of the queue and returns it
 - `boolean isEmpty()`: Returns true if the queue is empty, false otherwise
 
-NOTE: You might want to add some methods to your CLL class before implementing the queue, I suggest `insertFront()` and `removeBack()`.
+NOTE: You might want to add some methods to your CLL class before implementing the queue, I suggest `insertEnd()`, `removeFront()`, and `isEmpty()`.
 
-Solutions will be available on `2/19`
+<details>
+<summary>Click to reveal solution</summary>
+
+## Solution
+We must implement `insertEnd`, `removeFront`, and `isEmpty` into our CLL class before we can use it to make our queue. Let's go through these 3 methods.
+
+`insertEnd`: If we're inserting at the end of the CLL, the last pointer will have to be updated to this new node. If you draw a diagram, you will see that we need to first create a new node with the new value, then set its ".next" to the old last's ".next", set the old last's ".next" to the new node, and finally update last to this new node.
+
+```java
+public void insertEnd(T newValue) {
+    //If empty CLL, just create a node with newValue which points to itself
+    if (last == null) {
+        last = new Node<T>(newValue, null);
+        last.next = last;
+        return;
+    }
+
+    //Set last.next to the new node, and set the new node's .next to the front
+    last.next = new Node<T>(newValue, last.next);
+
+    //Update last to be the new node, since it's at the end now
+    last = last.next;
+}
+```
+
+`removeFront`: Since we have a reference to last, and the front is last.next, we can simply remove it with last.next = last.next.next. We do have to be careful of the situation where there is only one node, since we'd end up not doing anything. Note that we need to return the element we removed in order for our dequeue function to work later.
+
+```java
+public T removeFront() {
+    //Note how if the list is empty, we just let java throw an exception
+    T elem = last.data; //Store for returning later
+
+    //If CLL has one node, just set last to null to delete
+    if (last.next == last) last = null;
+    //Otherwise, we can just delete front with last.next = last.next.next
+    else last.next = last.next.next
+
+    return elem; 
+}
+```
+
+`isEmpty`: This one is simple, but necessary since our CLL last pointer is private. All we have to do is return whether or not last is null.
+
+```java
+public boolean isEmpty() {
+    return last == null
+}
+```
+
+Now that our CLL has all the methods we need, we are ready to implement our queue class. Since we did all the heavy lifting and logic in our CLL class, we have abstracted away the internal node structure, which will make this implementation very clean.
+
+```java
+public class Queue<T> {
+    private CLL<T> list;
+
+    public Queue() {
+        list = new CLL<T>();
+    }
+    
+    public void enqueue(T x) {
+        list.insertEnd(x);
+    }
+    
+    public T dequeue() {
+        return list.removeFront();
+    }
+
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+}
+```
+Wasn't that final implementation nice? As expected, our time complexity for all these methods is O(1) since we aren't traversing through the list, we are only working with the last and front which we have immediate access to. The space complexity for each method individually is O(1) as well, since we are only ever creating one node at most. An important thing to consider is that if you were to add one element the time and space copmlexity would be O(1), but if you were to add on the order of n elements, it would be O(n) for both.
+</details>
 <br>
 
 # Linked List Cycle
