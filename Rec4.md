@@ -99,7 +99,7 @@ Write a queue implementation (this means a new queue class) that uses a CLL. If 
 - `int dequeue()`: Removes the element at the back of the queue and returns it
 - `boolean isEmpty()`: Returns true if the queue is empty, false otherwise
 
-NOTE: You might want to add some methods to your CLL class before implementing the queue, I suggest `insertEnd()` and `removeFront()`.
+NOTE: You might want to add some methods to your CLL class before implementing the queue, I suggest `insertEnd()`, `removeFront()`, and `isEmpty()`.
 
 Solutions will be available on `2/19`
 <br>
