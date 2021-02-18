@@ -160,21 +160,11 @@ NOTE: You might want to add some methods to your CLL class before implementing t
 ## Solution
 We must implement `insertEnd`, `removeFront`, and `isEmpty` into our CLL class before we can use it to make our queue. Let's go through these 3 methods.
 
-`insertEnd`: If we're inserting at the end of the CLL, the last pointer will have to be updated to this new node. If you draw a diagram, you will see that we need to first create a new node with the new value, then set its ".next" to the old last's ".next", set the old last's ".next" to the new node, and finally update last to this new node.
+`insertEnd`: By drawing a picture, it can be shown that inserting at the end is the exact same thing as inserting at the front, but we have to update the last pointer to the new node. I have already implemented the `insertFront` method in an earlier solution, so I can use that method in this one.
 
 ```java
 public void insertEnd(T newValue) {
-    //If empty CLL, just create a node with newValue which points to itself
-    if (last == null) {
-        last = new Node<T>(newValue, null);
-        last.next = last;
-        return;
-    }
-
-    //Set last.next to the new node, and set the new node's .next to the front
-    last.next = new Node<T>(newValue, last.next);
-
-    //Update last to be the new node, since it's at the end now
+    insertFront(newValue);
     last = last.next;
 }
 ```
@@ -239,7 +229,34 @@ Return true if there is a cycle in the linked list. Otherwise, return false.
 
 LeetCode: https://leetcode.com/problems/linked-list-cycle/
 
-Solutions will be available on `2/19`
+<details>
+<summary>Click to reveal solution</summary>
+
+## Solution
+The solution method for this problem is called Floyd's Cycle Finding Algorithm, and is also known as the Tortoise and Hare method. The idea is that you have one fast pointer and one slow pointer. If there's no cycle in the list, the fast pointer will run off to null and you can return false. If there is a cycle in the list, at some point the slow pointer will have to coincide with the fast pointer. You can think about this as the fast pointer "lapping" the slow pointer in a race. If the pointers meet up, you can return true. Note that I do not use my Node class, I use leetcode's provided ListNode class, since that's where I wrote and tested my code.
+
+```java
+public boolean hasCycle(ListNode head) {
+    //Empty list has no cycles
+    if (head == null) return false;
+
+    //T is for tortoise, H is for hare, hare starts a little ahead 
+    ListNode t = head, h = head.next;
+
+    //Keep advancing t by 1 and h by 2, and checking that h.next is not null to avoid NPE 
+    for (; h != null && h.next != null; t = t.next, h = h.next.next) {
+        //If they ever reference the same node object, we can return true
+        if (t == h) return true;
+    }
+
+    //If we make it through the loop, the hare encountered null so there was no cycle 
+    return false;
+}
+```
+If n is the length of the input list including the possible cycle, we have 2 possible cases to consider for the time complexity: No cycle or cycle. If there is no cycle, the hare will reach the end in n/2 iterations, so the runtime is O(n). If there is a cycle, the tortoise will take some number of steps X to enter the cycle, and be lapped in some number of steps Y from there. X is bounded by the n, and Y is bounded by the length of the cycle which is also bounded n. All in all, we have O(n) for the time complexity in both input cases. The space complexity is O(1) since we only create 2 new pointers.
+
+NOTE: A more natural solution can be constructed using a hash table to store nodes we have already seen as we traverse with one pointer. The time complexity would still be O(n), but the space complexity would be O(n) as well. If you don't know what hash tables are yet, you can revisit this approach later.
+</details>
 <br>
 
 # Delete Target Node - CLL
@@ -249,7 +266,42 @@ Write a method in your CLL class to delete the node containing `target` from the
 
 **Example Output:** `1->2->4->5(last)`
 
-Solutions will be available on `2/19`
+<details>
+<summary>Click to reveal solution</summary>
+
+## Solution
+The first case to consider is when there are multiple (more than 1) nodes. In this case, we can simply traverse the list until we hit target, maintaining a pointer to the node before it. We can do this either by maintaining a prev pointer (which I will be doing) or checking the current node's ".next" at all times. Once we find the target node, we can simply set the prev's ".next" to the target's ".next" to delete it. If the target node was last, we will need to update our last pointer. If there is only one node, all we have to do is check if that node is equal to target and set last to null if it is. If the list is empty, we just do nothing.
+
+```java
+public void deleteTarget(T target) {
+    if (last == null) return; //Empty list, do nothing
+    
+    //If one node with target, just set last to null
+    if (last.next == last && last.data.equals(target)) {
+        last = null;
+        return;
+    }
+    
+    //I handle this case here, since my loop won't be able to handle it
+    if (last.next.data.equals(target)) {
+        removeFront(); //Already implemented removeFront
+        return;
+    }
+    
+    //Traverse with a prev pointer, go until prev is last, so ptr actually hits last
+    for (Node ptr = last.next, prev = null; prev != last; prev = ptr, ptr = ptr.next) {
+        if (ptr.data.equals(target)) {
+            //Delete a node
+            prev.next = ptr.next;
+
+            //If we are the last, just update last to the node before
+            if (ptr == last) last = prev;
+        }
+    }
+}
+```
+If n is the length of the CLL, the time complexity is O(n) since we might traverse the entire list. The space complexity is O(1) since we create at most 2 new nodes, for prev and ptr.
+</details>
 <br>
 
 # Add to End - DLL
@@ -259,7 +311,27 @@ Write a method append() in your DLL class that takes in a T `target` and inserts
 
 **Example Output:** `1<->2<->3<->17`
 
-Solutions will be available on `2/19`
+<details>
+<summary>Click to reveal solution</summary>
+
+## Solution
+If the list is empty, simply create a new node with the data and set it as head. If it's not, navigate to the end of the list and add a node with the prev pointer set.
+
+```java
+public void append(T target) {
+    if (head == null) {
+        head = new Node<T>(target, null, null);
+        return; 
+    }
+
+    Node<T> ptr = head;
+    while (ptr.next != null) ptr = ptr.next;
+
+    ptr.next = new Node<T>(target, ptr, null);
+}
+```
+If the length of the DLL at the time this method is called is n, the time complexity is O(n) since the whole list is traversed. The space complexity is O(1) since we are only creating 2 new nodes.
+</details>
 <br>
 
 # Partition - Linked List
@@ -269,5 +341,43 @@ Write a method partition() which takes a Node<Integer> `head` and an int `target
 
 **Example Output:** `3->1->2->10->5->5->8`, Note that this is one of many possible solutions with the right property
 
-Solutions will be available on `2/19`
+<details>
+<summary>Click to reveal solution</summary>
+
+## Solution
+We can denote 2 pointers called front and back in order to keep track of places we can insert nodes as we traverse. If the element is less than `target`, we can insert it to the very front of the list, and if the element is greater than or equal to `target`, we can insert it to the very end of the list. We are building our new list as we go through, so the front and end can both begin at the first node of the list. As we traverse through, the distance between these pointers will grow, and eventually the whole list will be partitioned.
+
+```java
+public static Node<Integer> partition(Node<Integer> head, int target) {
+    Node<Integer> front = head, back = head;
+
+    //Notice we are traversing head, so the original list is being deleted
+    while (head != null) {
+        //Store the next node we want to visit
+        Node<Integer> next = head.next;
+
+        //If head is less, we insert it to the front
+        if (head.data < target) {
+            //Make it point to current front, and update front
+            head.next = front;
+            front = head;
+        }
+        
+        //Otherwise, we insert it to back
+        else {
+            //Make back point to it, and update back
+            back.next = head;
+            back = head;
+        }
+
+        //Update head to the next we stored earlier         
+        head = next;
+    }
+
+    //Front will be the new head of the list 
+    return front;
+}
+```
+Because we loop through the list once, and we have direct access to the front and back pointers, each loop is an O(1) operation, meaning our runtime is O(n). The space complexity is O(1) since we are losing pointers to the original list as we add new pointers to either front or back, so the size of the total list is on the same order as the original list.
+</details>
 <br>
