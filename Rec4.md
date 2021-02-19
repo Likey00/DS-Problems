@@ -126,19 +126,17 @@ public void insertAfter(T target, T newValue) {
         //Notice I used .equals since we're working with objects
         if (ptr.data.equals(target)) {
             //Set up the new node with its value, its prev, and its next pointers
-            Node<T> newNode = new Node<T>(newValue, target, target.next);
+            Node<T> newNode = new Node<T>(newValue, ptr, ptr.next);
             
             //If the right node isn't null, set its prev
             //I need to check since calling .prev on null leads to NPE
-            if (target.next != null) target.next.prev = newNode;
+            if (ptr.next != null) ptr.next.prev = newNode;
 
             //Set the target's next finally
             //We have to do it at the end since otherwise right node would be lost
-            target.next = newNode;
+            ptr.next = newNode;
         }
     }
-
-    //Notice how if the target isn't found nothing happens
 }
 ```
 If n is the size of the DLL at the time this method is called, the runtime is O(n) since it is possible that the whole list is traversed. The space complexity is O(1) since we always create two new nodes, one for the pointer and one for the new list element.
@@ -174,12 +172,12 @@ public void insertEnd(T newValue) {
 ```java
 public T removeFront() {
     //Note how if the list is empty, we just let java throw an exception
-    T elem = last.data; //Store for returning later
+    T elem = last.next.data; //Store for returning later
 
     //If CLL has one node, just set last to null to delete
     if (last.next == last) last = null;
     //Otherwise, we can just delete front with last.next = last.next.next
-    else last.next = last.next.next
+    else last.next = last.next.next;
 
     return elem; 
 }
@@ -189,7 +187,7 @@ public T removeFront() {
 
 ```java
 public boolean isEmpty() {
-    return last == null
+    return last == null;
 }
 ```
 
@@ -253,7 +251,7 @@ public boolean hasCycle(ListNode head) {
     return false;
 }
 ```
-If n is the length of the input list including the possible cycle, we have 2 possible cases to consider for the time complexity: No cycle or cycle. If there is no cycle, the hare will reach the end in n/2 iterations, so the runtime is O(n). If there is a cycle, the tortoise will take some number of steps X to enter the cycle, and be lapped in some number of steps Y from there. X is bounded by the n, and Y is bounded by the length of the cycle which is also bounded n. All in all, we have O(n) for the time complexity in both input cases. The space complexity is O(1) since we only create 2 new pointers.
+If n is the length of the input list including the possible cycle, we have 2 possible cases to consider for the time complexity: No cycle or cycle. If there is no cycle, the hare will reach the end in n/2 iterations, so the runtime is O(n). If there is a cycle, the tortoise will take some number of steps X to enter the cycle, and be lapped in some number of steps Y from there. X is bounded by n, and Y is bounded by the length of the cycle which is also bounded by n. All in all, we have O(n) for the time complexity in both input cases. The space complexity is O(1) since we only create 2 new pointers.
 
 NOTE: A more natural solution can be constructed using a hash table to store nodes we have already seen as we traverse with one pointer. The time complexity would still be O(n), but the space complexity would be O(n) as well. If you don't know what hash tables are yet, you can revisit this approach later.
 </details>
@@ -289,7 +287,7 @@ public void deleteTarget(T target) {
     }
     
     //Traverse with a prev pointer, go until prev is last, so ptr actually hits last
-    for (Node ptr = last.next, prev = null; prev != last; prev = ptr, ptr = ptr.next) {
+    for (Node<T> ptr = last.next, prev = null; prev != last; prev = ptr, ptr = ptr.next) {
         if (ptr.data.equals(target)) {
             //Delete a node
             prev.next = ptr.next;
@@ -368,6 +366,7 @@ public static Node<Integer> partition(Node<Integer> head, int target) {
             //Make back point to it, and update back
             back.next = head;
             back = head;
+            head.next = null; //Truncate this pointer, we don't want infinite loops
         }
 
         //Update head to the next we stored earlier         
