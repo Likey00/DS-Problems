@@ -332,7 +332,7 @@ If the length of the DLL at the time this method is called is n, the time comple
 </details>
 <br>
 
-# Partition - Linked List
+# Partition - Linked List (Hard)
 Write a method partition() which takes a Node<Integer> `head` and an int `target` as arguments, and reorders the list such that all the elements with a value less than `target` appear before all the elements with a value greater than or equal to `target`. The element(s) containing `target` can appear anywhere in the right side, and do not have to be in between the values less and the values greater.
 
 **Example Input:** `3->5->8->5->10->2->1`, `partition = 5`
