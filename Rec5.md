@@ -29,7 +29,7 @@ Given a (not necessarily sorted) array `nums` without duplicates, return an Arra
 
 **Example Input:** `[-1,0,1,2,-4]`
 
-**Example Output:** `[-1,0,4]`
+**Example Output:** `[-1,0,1]`
 
 NOTE: Using a binary search approach, this problem can be solved in O(n^2 logn) which is the intended solution. If you know about hash tables, there is an O(n^2) solution, but feel free to revisit this problem later otherwise. I recommend solving the problem with the binary search at least once for practice.
 
