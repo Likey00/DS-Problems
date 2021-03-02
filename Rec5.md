@@ -53,7 +53,7 @@ Draw the decision tree for binary search for an array of 8 elements. Include fai
     - 3 numbers that are smaller than the value at index 0.
     - 2 numbers that are greater than the value at index 3 but is smaller than the value at index 5.
 
-`Solutions will be released on 2/26`
+https://imgur.com/gallery/ExagHaa
 
 # 3Sum (Hard)
 Given a (not necessarily sorted) array `nums` without duplicates, return an array containing 3 elements of `nums` such that the values sum to 0. If there are no such elements, simply return null.
