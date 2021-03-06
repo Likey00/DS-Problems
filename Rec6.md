@@ -49,7 +49,7 @@ public class BST {
         
         System.out.println(n.key);
 
-        if (n != null && n.left == null && n.right == null) return;
+        if (n.left == null && n.right == null) return;
 
         indent += isRight ? "┃    " : "     ";
 
