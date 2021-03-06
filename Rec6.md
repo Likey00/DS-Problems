@@ -292,7 +292,7 @@ If n is the number of elements in the BST, the worst case is that we get a compl
 </details>
 <br>
 
-# Kth Largest (hard)
+# Kth Largest (Hard)
 Write a **recursive** method `kthLargest` in your BST class which takes in a Node and a number k, and returns the kth largest element in the tree. For example, if k = 1, you would return the largest element. If k = 2, you would return the second largest element, and so on.
 
 NOTE: This method will require the use of `size()`, so make sure your insert method properly updates the size variables for each node before starting this one!
@@ -327,6 +327,52 @@ private static int kthLargest(Node n, int k) {
 //Wrapper method which only needs k, and runs kthLargest on root
 public Integer kthLargest(int k) {
     return kthLargest(root, k);
+}
+```
+If n is the number of elements in the BST, the worst case is that we get a completely unbalanced tree and we go all the way to the bottom, in which case the time and space complexity are O(n), since we must visit every node and make n recursive calls, which take up call stack space. In the average case where the tree is relatively balanced, the height is on the order of logn, so the runtime and space complexity would be O(logn).
+</details>
+<br>
+
+# Nums In Range (Hard)
+Write a **recursive** method `numsInRange` in your BST class which takes in a Node, a number lo, and a number hi, and returns the number of elements in the BST which are between lo and hi inclusive. 
+
+<details>
+<summary>Click to reveal solution</summary>
+
+## Solution
+If our input node is null, there are no elements in the range to be found here, so we can simply return 0.
+
+If our input node has a key in the range, we can add 1 to our solution variable, and this 1 represents the current node.
+
+If our input node is less than hi, there might still be more nodes in the range to the right of the current node, so we can add a recursive call to the right to our solution variable.
+
+If our input node is greater than lo, there might still be more nodes in the range to the left of the current node, so we can add a recursive call to the left to our solution variable.
+
+Finally, we can just return our solution variable.
+
+```java
+//Takes in current node and range (lo, hi), returns number of elements in current BST in that range
+private static int numsInRange(Node n, int lo, int hi) {
+    //If n is null, there are no nums in range rooted here
+    if (n == null) return 0;
+
+    //If n.key is in the range, I start result at 1 to account for the current node
+    //Otherwise, I start it at 0, meaning we aren't in the range yet 
+    int result = (n.key >= lo && n.key <= hi) ? 1 : 0;
+    
+    //If key < hi, I add the numsInRange of the right subtree
+    if (n.key < hi) result += numsInRange(n.right, lo, hi);
+
+    //If key > lo, same thing for left subtree
+    if (n.key > lo) result += numsInRange(n.left, lo, hi);
+
+    //I can now return the total number of nums in the range
+    return result;
+}
+
+//Wrapper method which only requires lo and hi, calls numsInRange on the root
+public int numsInRange(int lo, int hi) {
+    return numsInRange(root, lo, hi);
 }
 ```
 If n is the number of elements in the BST, the worst case is that we get a completely unbalanced tree and we go all the way to the bottom, in which case the time and space complexity are O(n), since we must visit every node and make n recursive calls, which take up call stack space. In the average case where the tree is relatively balanced, the height is on the order of logn, so the runtime and space complexity would be O(logn).
