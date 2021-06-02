@@ -207,7 +207,7 @@ If n is the number of elements in the BST, the worst case runtime is O(n) since 
 </details>
 <br>
 
-# Ceiling (Hard)
+# Ceiling
 Write a **recursive** method `ceiling` in your BST class which takes in a Node and a target value, and returns the *smallest* element present in the BST which is *greater than or equal to* the target value. I recommend returning an Integer rather than an int so you can return null if necessary, indicating no ceiling was found.
 
 <details>
@@ -251,7 +251,7 @@ If n is the number of elements in the BST, the worst case is that we get a compl
 </details>
 <br>
 
-# Rank (Hard)
+# Rank 
 Write a **recursive** method `rank` in your BST class which takes in a Node and a target value, and returns the *number of elements in the BST* which are smaller than the element containing target. If there exists no element containing target, your program can just throw an exception. Another way to interpret the meaning of rank is the *index* of the element containing target if the BST was converted to a sorted array. 
 
 NOTE: This method will require the use of `size()`, so make sure your insert method properly updates the size variables for each node before starting this one!
@@ -292,7 +292,7 @@ If n is the number of elements in the BST, the worst case is that we get a compl
 </details>
 <br>
 
-# Kth Largest (Hard)
+# Kth Largest
 Write a **recursive** method `kthLargest` in your BST class which takes in a Node and a number k, and returns the kth largest element in the tree. For example, if k = 1, you would return the largest element. If k = 2, you would return the second largest element, and so on.
 
 NOTE: This method will require the use of `size()`, so make sure your insert method properly updates the size variables for each node before starting this one!
@@ -333,7 +333,7 @@ If n is the number of elements in the BST, the worst case is that we get a compl
 </details>
 <br>
 
-# Nums In Range (Hard)
+# Nums In Range 
 Write a **recursive** method `numsInRange` in your BST class which takes in a Node, a number lo, and a number hi, and returns the number of elements in the BST which are between lo and hi inclusive. 
 
 <details>

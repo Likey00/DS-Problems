@@ -39,6 +39,7 @@ public int search(int[] nums, int target) {
 ```
 If n is the size of the input array, our runtime is O(logn), since we are halving the size of our current search space at every step. If our search space starts at n, the number of steps is the number of times we can divide n by 2 until we get 1, or O(logn). The space complexity is O(1), since we always create 3 new int variables: lo, hi, and m.
 </details>
+<br>
 
 # Decision Tree
 Draw the decision tree for binary search for an array of 8 elements. Include failure nodes, and mark comparisons on the nodes and branches.
@@ -72,8 +73,9 @@ Draw the decision tree for binary search for an array of 8 elements. Include fai
 
 7. Now we are actually given where the searches fail, and how many searches fail in each location, so we can come up with an average case for failure for the given input data. The failure node corresponding to "smaller than the value at index 0" takes 6 comparisons to reach, and the failure node corresponding to "greater than index 3 and smaller than index 4" also takes 6 comparisons. Thus, we know the average must also be `6 comparisons`. Alternatively, we could compute `(3(6) + 2(6)) / 5 = 6`. 
 </details>
+<br>
 
-# 3Sum (Hard)
+# 3Sum
 Given a (not necessarily sorted) array `nums` without duplicates, return an array containing 3 elements of `nums` such that the values sum to 0. If there are no such elements, simply return null.
 
 **Example Input:** `[-1,0,1,2,-4]`

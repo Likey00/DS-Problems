@@ -1,27 +1,6 @@
 # Classes and Methods
 Before introducing any problems, I would like to share the various classes and methods which I use in my solutions, and also some methods which I use to test my code. Your implementations of these classes may be different, but sharing mine will allow you to understand my solutions completely. Note: This time I will not include a printList method, but it's different based on the type of linked list. Try implementing one yourself for each type!
 
-## Generic Node class
-```java
-public class Node<T> {
-    //Should look familiar, just with generic type T
-    T data;
-    Node<T> next;
-
-    //No argument constructor
-    public Node() {
-        data = null;
-        next = null;
-    }
-
-    //Lets you initialize Node with data and next already set
-    public Node(T d, Node<T> n) {
-        data = d;
-        next = n;
-    }
-}
-```
-
 ## Circular Linked List base class
 ```java
 public class CLL<T> {
@@ -218,45 +197,6 @@ Wasn't that final implementation nice? As expected, our time complexity for all 
 </details>
 <br>
 
-# Linked List Cycle
-Given the head of a linked list, determine if the linked list has a cycle in it.
-
-There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
-
-Return true if there is a cycle in the linked list. Otherwise, return false.
-
-LeetCode: https://leetcode.com/problems/linked-list-cycle/
-
-<details>
-<summary>Click to reveal solution</summary>
-
-## Solution
-The solution method for this problem is called Floyd's Cycle Finding Algorithm, and is also known as the Tortoise and Hare method. The idea is that you have one fast pointer and one slow pointer. If there's no cycle in the list, the fast pointer will run off to null and you can return false. If there is a cycle in the list, at some point the slow pointer will have to coincide with the fast pointer. You can think about this as the fast pointer "lapping" the slow pointer in a race. If the pointers meet up, you can return true. Note that I do not use my Node class, I use leetcode's provided ListNode class, since that's where I wrote and tested my code.
-
-```java
-public boolean hasCycle(ListNode head) {
-    //Empty list has no cycles
-    if (head == null) return false;
-
-    //T is for tortoise, H is for hare, hare starts a little ahead 
-    ListNode t = head, h = head.next;
-
-    //Keep advancing t by 1 and h by 2, and checking that h.next is not null to avoid NPE 
-    for (; h != null && h.next != null; t = t.next, h = h.next.next) {
-        //If they ever reference the same node object, we can return true
-        if (t == h) return true;
-    }
-
-    //If we make it through the loop, the hare encountered null so there was no cycle 
-    return false;
-}
-```
-If n is the length of the input list including the possible cycle, we have 2 possible cases to consider for the time complexity: No cycle or cycle. If there is no cycle, the hare will reach the end in n/2 iterations, so the runtime is O(n). If there is a cycle, the tortoise will take some number of steps X to enter the cycle, and be lapped in some number of steps Y from there. X is bounded by n, and Y is bounded by the length of the cycle which is also bounded by n. All in all, we have O(n) for the time complexity in both input cases. The space complexity is O(1) since we only create 2 new pointers.
-
-NOTE: A more natural solution can be constructed using a hash table to store nodes we have already seen as we traverse with one pointer. The time complexity would still be O(n), but the space complexity would be O(n) as well. If you don't know what hash tables are yet, you can revisit this approach later.
-</details>
-<br>
-
 # Delete Target Node - CLL
 Write a method in your CLL class to delete the node containing `target` from the list. If there is no node containing `target`, do nothing. Think about the different cases. Remember that if you're using my provided CLL class, `target` is of type T, so comparisons will need to use `.equals()` rather than `==`.
 
@@ -332,51 +272,3 @@ If the length of the DLL at the time this method is called is n, the time comple
 </details>
 <br>
 
-# Partition - Linked List (Hard)
-Write a method partition() which takes a Node<Integer> `head` and an int `target` as arguments, and reorders the list such that all the elements with a value less than `target` appear before all the elements with a value greater than or equal to `target`. The element(s) containing `target` can appear anywhere in the right side, and do not have to be in between the values less and the values greater.
-
-**Example Input:** `3->5->8->5->10->2->1`, `partition = 5`
-
-**Example Output:** `3->1->2->10->5->5->8`, Note that this is one of many possible solutions with the right property
-
-<details>
-<summary>Click to reveal solution</summary>
-
-## Solution
-We can denote 2 pointers called front and back in order to keep track of places we can insert nodes as we traverse. If the element is less than `target`, we can insert it to the very front of the list, and if the element is greater than or equal to `target`, we can insert it to the very end of the list. We are building our new list as we go through, so the front and end can both begin at the first node of the list. As we traverse through, the distance between these pointers will grow, and eventually the whole list will be partitioned.
-
-```java
-public static Node<Integer> partition(Node<Integer> head, int target) {
-    Node<Integer> front = head, back = head;
-
-    //Notice we are traversing head, so the original list is being deleted
-    while (head != null) {
-        //Store the next node we want to visit
-        Node<Integer> next = head.next;
-
-        //If head is less, we insert it to the front
-        if (head.data < target) {
-            //Make it point to current front, and update front
-            head.next = front;
-            front = head;
-        }
-        
-        //Otherwise, we insert it to back
-        else {
-            //Make back point to it, and update back
-            back.next = head;
-            back = head;
-            head.next = null; //Truncate this pointer, we don't want infinite loops
-        }
-
-        //Update head to the next we stored earlier         
-        head = next;
-    }
-
-    //Front will be the new head of the list 
-    return front;
-}
-```
-Because we loop through the list once, and we have direct access to the front and back pointers, each loop is an O(1) operation, meaning our runtime is O(n). The space complexity is O(1) since we are losing pointers to the original list as we add new pointers to either front or back, so the size of the total list is on the same order as the original list.
-</details>
-<br>

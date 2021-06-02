@@ -217,3 +217,85 @@ public static int[] twoSum(int[] arr, int target) {
 ```
 The time complexity here is O(n), since in the worst case lo and hi meet in the middle, which means that the while loop runs n/2 times and there are 2 array accesses per loop. The space complexity is O(1) since no new arrays were created. 
 </details>
+<br>
+
+# Task Scheduler (Hard)
+You are given a character array tasks, representing the tasks a CPU needs to do, where each letter represents a different task. Tasks could be done in any order. Each task is done in one unit of time. For each unit of time, the CPU could complete either one task or be idle. However, there is a non-negative integer n that represents the cooldown period between two same tasks (the same letter in the array). That is, there must be at least n units of time between any two same tasks. Return the least number of units of time that the CPU will take to finish all the given tasks. You can write/test your solution at the following leetcode link: https://leetcode.com/problems/task-scheduler/
+
+**Example Input:** `['A','A','A','B','B','B']`, `n = 2`
+
+**Example Output:** 8
+
+**Explanation:** The following task order is optimal: `A, B, Idle, A, B, Idle, A, B`. This is 8 units of time.
+
+<details>
+<summary>Click to reveal solution</summary>
+
+## Solution
+A good way to solve this problem involves thinking about wasted time. The time where the CPU is idle is considered wasted time, since no task is being executed. Since the same task requires n units of time before it can be executed again, we can begin by considering the most frequent letter alone, which will result in (max frequency - 1) * n idle units of time. You can think of groups of n units of time sandwiched between this letter. Now we can slot the rest of the tasks in, and reduce the wasted time in the process. If the element has the same frequency as the max frequency, it will remove (max frequency - 1) units of idle time, since the last instance will go at the end, which is not considered wasted time. Otherwise, the element will remove (its frequency) units of idle time, since each instance of the element will use up one unit of wasted time and be evenly spaced. At the end, we can just return the number of elements + wasted time.
+
+```java
+public static int taskScheduler(char[] tasks, int n) {
+    //Store the frequencies of each character, and sort them
+    int[] frequencies = new int[26];
+    for (char c : tasks) frequencies[c-'A']++;
+    Arrays.sort(frequencies);
+    
+    //Initially, only consider max frequency
+    int maxFreq = frequencies[25];
+    int wastedTime = (maxFreq - 1) * n;
+    
+    //Go through all the other frequencies
+    for (int i = 0; i < 25; i++) {
+        if (frequencies[i] == maxFreq) wastedTime -= (maxFreq - 1);
+        else wastedTime -= frequencies[i];
+    }
+    
+    //Use Math.max with 0 since negative wasted time is just 0 wasted time
+    return tasks.length + Math.max(0, wastedTime);
+}
+```
+If n is the size of the input array, this algorithm will have a runtime of O(n), since we loop through the whole input array once to calculate the frequencies. Even though we created a new array, our space complexity is O(1) since the new array will always be of size 26 regardless of our input size.
+</details>
+<br>
+
+# Largest Rectangle in Histogram (Insane)
+Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of largest rectangle in the histogram. Refer to the following leetcode link for a visual and to write/test your code: https://leetcode.com/problems/largest-rectangle-in-histogram/
+
+NOTE: I was not personally able to come up with an easily explainable solution faster than O(n^2). This is not fast enough to pass the leetcode test cases, so don't stress if you are getting TLE.
+
+<details>
+<summary>Click to reveal solution</summary>
+
+## My Solution
+This is not the most efficient solution, but it is one I feel I can explain clearly. I am essentially trying every combination of 2 indices, and returning the max area rectangle of all of them. In order to compute the rectangle between two indices, I need to know the min in that range. Finding the min from scratch every time would be inefficient, but luckily since I am stepping through the array, I can maintain the current minimum in the range I am working, and not waste runtime. 
+
+```java
+public int largestRectangleArea(int[] heights) {
+    int n = heights.length;
+    int largest = 0; //Stores current largest area
+
+    //i represents the starting index of my range 
+    for (int i = 0; i < n; i++) {
+        //I keep a running min, starting at index i
+        int currentMin = heights[i];
+        
+        //j represents the ending index, and starts at i for 1 cell rects
+        for (int j = i; j < n; j++) {
+            //Update the currentMin based on heights[j]
+            currentMin = Math.min(currentMin, heights[j]);
+            
+            //The rectangle from i to j is (j-i+1) * currentMin
+            largest = Math.max(largest, (j-i+1)*currentMin);
+        }
+    }
+    
+    //Return the largest rectangle area seen
+    return largest;
+}
+```
+If n is the length of the heights array, the runtime of this solution is O(n^2) since the inner loop runs 1 + 2 + 3... + n = n(n+2)/2 times, and inside this loop we are only doing constant time operations. The space complexity is O(1) since we only create 2 new variables.
+
+## Efficient Solution
+Refer to the following youtube video for a full explanation of the efficient solution: https://www.youtube.com/watch?v=ZmnqCZp9bBs
+</details>

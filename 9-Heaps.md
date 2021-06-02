@@ -146,6 +146,7 @@ public int deleteMax() {
 ```
 If n is the number of elements in the heap, the height is on the order of O(logn), since the heap tree structure is complete. Thus, at worst the replaced element will be sifted down O(logn) times, meaning that deleteMax is an O(logn) operation.
 </details>
+<br>
 
 # Heapify
 Write a method `heapify` in your MaxPQ class which modifies the currently stored ArrayList (may not yet be a valid max heap) into a valid max heap. The most efficient way to achieve this is to start at the end of the stored ArrayList and sift each element down to its proper location, working your way to the beginning. It will be explained rigorously why this is the most efficient method in the solution. You may use the provided constructor which takes in an preexisting ArrayList to test your method.
@@ -173,6 +174,7 @@ Surprisingly, when the operations are performed in this order, the `heapify` met
 
 ![](https://i.imgur.com/j9qBMJM.jpeg)
 </details>
+<br>
 
 # Top K
 Write a method `topK` which takes in an ArrayList of Integers and an int k, and uses a heap object to help efficiently return the top k elements in the given ArrayList.
@@ -201,6 +203,7 @@ public static ArrayList<Integer> topK(ArrayList<Integer> a, int k) {
 ```
 As addressed in the heapify problem, our `heapify` method runs in O(n) time, where n is the size of the given ArrayList. Each time we call deleteMax(), we are doing an O(logn) operation. Thus, our total runtime is O(n + klogn). Notice that this is better than simply sorting the ArrayList and iterating through the top k elements, which is O(nlogn + k) time since n is always greater than or equal to k, and potentially much larger.
 </details>
+<br>
 
 # Min Heap Trace
 Simulate on your own inserting the elements `[5, 1, 19, 25, 17, 21, 5, 19, 20, 9, 15, 14]` into a MIN heap. Then verify whether the heap structure and final array structure you arrived at is accurate using your MaxPQ class. Remember that by negating numbers before inserting them, you can cause your max heap to function as a min heap. Also notice that duplicate numbers in heaps are totally fine. 
